@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizBooster - Settings</title>
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --primary-light: #34495e;
+            --accent: #3498db;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --success: #27ae60;
+            --warning: #f59e0b;
+            --danger: #e74c3c;
+            --gray: #95a5a6;
+            --gray-light: #bdc3c7;
+            
+            /* Dark mode variables */
+            --bg-color: #f5f7fa;
+            --text-color: var(--dark);
+            --card-bg: white;
+            --border-color: #dfe6e9;
+            --sidebar-bg: var(--primary);
+            --sidebar-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #2c3e50;
+            --text-color: #ecf0f1;
+            --card-bg: #334155;
+            --border-color: #4a6278;
+            --sidebar-bg: #1a252f;
+            --sidebar-text: #ecf0f1;
+            --gray-light: #4a6278;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        /* Mobile First Layout */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--card-bg);
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Main Content Layout */
+        .main-content {
+            display: flex;
+            flex: 1;
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            width: 240px;
+            position: fixed;
+            top: 0;
+            left: -240px;
+            height: 100vh;
+            z-index: 90;
+            transition: all 0.3s ease;
+            padding-top: 70px;
+            overflow-y: auto;
+        }
+        
+        .sidebar.active {
+            left: 0;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            transition: background 0.2s;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .nav-item.active {
+            background: rgba(255,255,255,0.2);
+            border-left: 3px solid var(--accent);
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+        }
+        
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .sidebar.active + .content {
+            margin-left: 240px;
+        }
+        
+        /* Overlay for mobile menu */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 80;
+            display: none;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* Settings Header */
+        .settings-header {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .settings-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .sidebar {
+                position: sticky;
+                top: 0;
+                left: 0;
+            }
+            
+            .content {
+                margin-left: 240px;
+            }
+            
+            .menu-toggle {
+                display: none;
+            }
+        }
+        
+        .settings-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--primary);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .header-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        
+        .header-button:hover {
+            background: var(--primary-light);
+        }
+        
+        /* Settings Card */
+        .settings-card {
+            background: var(--card-bg);
+            border-radius: 6px;
+            padding: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-icon {
+            background: var(--accent);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        /* Settings Sections */
+        .settings-section {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .settings-section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+        }
+        
+        .section-title i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Setting Items */
+        .setting-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px 0;
+        }
+        
+        @media (min-width: 576px) {
+            .setting-item {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        
+        .setting-label {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+        
+        .setting-label-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .setting-icon {
+            color: var(--accent);
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        .setting-description {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-left: 30px;
+        }
+        
+        /* Form Elements */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray-light);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--accent);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        
+        .form-select, .form-input {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            width: 100%;
+            font-size: 0.9rem;
+            max-width: 200px;
+        }
+        
+        /* Save Button */
+        .save-button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        @media (min-width: 576px) {
+            .save-button {
+                width: auto;
+                float: right;
+            }
+        }
+        
+        .save-button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-rocket"></i>
+                <span>BizBooster</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </header>
+        
+        <!-- Overlay for mobile menu -->
+        <div class="overlay" id="overlay"></div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar Navigation -->
+            <nav class="sidebar" id="sidebar">
+                <ul class="nav-menu">
+                    <li class="nav-item active">
+                        <a href="setting.html" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Settings Header -->
+                <div class="settings-header">
+                    <h1 class="settings-title">System Settings</h1>
+                    <div class="header-actions">
+                        <button class="header-button" onclick="window.history.back()">
+                            <i class="fas fa-arrow-left"></i> <span>Back</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- General Settings Card -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <h2 class="card-title">General Settings</h2>
+                    </div>
+
+                    <!-- Appearance Section -->
+                    <div class="settings-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-palette"></i> Appearance
+                        </h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-moon setting-icon"></i>
+                                    <div>Dark Mode</div>
+                                </div>
+                                <div class="setting-description">Switch between light and dark theme</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-font setting-icon"></i>
+                                    <div>Font Size</div>
+                                </div>
+                                <div class="setting-description">Adjust the interface text size</div>
+                            </div>
+                            <select class="form-select">
+                                <option>Small</option>
+                                <option selected>Medium</option>
+                                <option>Large</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-language setting-icon"></i>
+                                    <div>Language</div>
+                                </div>
+                                <div class="setting-description">System interface language</div>
+                            </div>
+                            <select class="form-select">
+                                <option selected>English</option>
+                                <option>Spanish</option>
+                                <option>French</option>
+                                <option>German</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Date & Time Section -->
+                    <div class="settings-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-clock"></i> Date & Time
+                        </h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-calendar setting-icon"></i>
+                                    <div>Date Format</div>
+                                </div>
+                                <div class="setting-description">How dates are displayed system-wide</div>
+                            </div>
+                            <select class="form-select">
+                                <option>MM/DD/YYYY</option>
+                                <option selected>DD/MM/YYYY</option>
+                                <option>YYYY-MM-DD</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-globe setting-icon"></i>
+                                    <div>Time Zone</div>
+                                </div>
+                                <div class="setting-description">Your local time zone</div>
+                            </div>
+                            <select class="form-select">
+                                <option>(UTC) London</option>
+                                <option>(UTC+01:00) Paris</option>
+                                <option selected>(UTC-05:00) New York</option>
+                                <option>(UTC+08:00) Beijing</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Settings Card -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h2 class="card-title">Notification Settings</h2>
+                    </div>
+
+                    <!-- Email Notifications -->
+                    <div class="settings-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-envelope"></i> Email Notifications
+                        </h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-envelope setting-icon"></i>
+                                    <div>Email Alerts</div>
+                                </div>
+                                <div class="setting-description">Receive system notifications via email</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-exclamation-triangle setting-icon"></i>
+                                    <div>Low Stock Alerts</div>
+                                </div>
+                                <div class="setting-description">Get notified when inventory is low</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-truck setting-icon"></i>
+                                    <div>Order Updates</div>
+                                </div>
+                                <div class="setting-description">Notifications for order status changes</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- System Alerts -->
+                    <div class="settings-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-exclamation-circle"></i> System Alerts
+                        </h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-bell setting-icon"></i>
+                                    <div>Desktop Notifications</div>
+                                </div>
+                                <div class="setting-description">Show popup notifications</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-bell-slash setting-icon"></i>
+                                    <div>Do Not Disturb</div>
+                                </div>
+                                <div class="setting-description">Temporarily disable notifications</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data & Security Card -->
+                <div class="settings-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h2 class="card-title">Data & Security</h2>
+                    </div>
+
+                    <!-- Data Management -->
+                    <div class="settings-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-database"></i> Data Management
+                        </h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-sync-alt setting-icon"></i>
+                                    <div>Auto Refresh</div>
+                                </div>
+                                <div class="setting-description">How often data refreshes automatically</div>
+                            </div>
+                            <select class="form-select">
+                                <option>15 minutes</option>
+                                <option selected>30 minutes</option>
+                                <option>1 hour</option>
+                                <option>Manual</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-file-export setting-icon"></i>
+                                    <div>Export Format</div>
+                                </div>
+                                <div class="setting-description">Default format for data exports</div>
+                            </div>
+                            <select class="form-select">
+                                <option selected>CSV</option>
+                                <option>Excel</option>
+                                <option>JSON</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-history setting-icon"></i>
+                                    <div>Backup Frequency</div>
+                                </div>
+                                <div class="setting-description">How often system backups are created</div>
+                            </div>
+                            <select class="form-select">
+                                <option>Daily</option>
+                                <option selected>Weekly</option>
+                                <option>Monthly</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Security Settings -->
+                    <div class="settings-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-lock"></i> Security
+                        </h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-key setting-icon"></i>
+                                    <div>Password Requirements</div>
+                                </div>
+                                <div class="setting-description">Minimum password strength</div>
+                            </div>
+                            <select class="form-select">
+                                <option>Basic</option>
+                                <option selected>Strong</option>
+                                <option>Very Strong</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-clock setting-icon"></i>
+                                    <div>Session Timeout</div>
+                                </div>
+                                <div class="setting-description">Inactivity period before auto-logout</div>
+                            </div>
+                            <select class="form-select">
+                                <option>15 minutes</option>
+                                <option selected>30 minutes</option>
+                                <option>1 hour</option>
+                                <option>4 hours</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <div class="setting-label-content">
+                                    <i class="fas fa-user-shield setting-icon"></i>
+                                    <div>Two-Factor Authentication</div>
+                                </div>
+                                <div class="setting-description">Extra security for your account</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <button class="save-button">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle functionality
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            menuToggle.innerHTML = sidebar.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.checked = true;
+        }
+        
+        darkModeToggle.addEventListener('change', () => {
+            if (darkModeToggle.checked) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+
+        // Save Settings Button
+        document.querySelector('.save-button').addEventListener('click', () => {
+            alert('Settings saved successfully!');
+            // Here you would typically send settings to your backend
+        });
+    </script>
+</body>
+</html>

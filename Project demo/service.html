@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizBooster - Service Analytics</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7c3aed; /* Purple primary for services */
+            --primary-light: #8b5cf6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            
+            /* Dark mode variables */
+            --bg-color: white;
+            --text-color: var(--dark);
+            --card-bg: white;
+            --border-color: var(--gray-light);
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f8fafc;
+            --card-bg: #334155;
+            --border-color: #475569;
+            --primary: #a78bfa;
+            --gray-light: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--card-bg);
+            padding: 1rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            white-space: nowrap;
+        }
+        
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-link {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        .header-link:hover {
+            color: var(--primary);
+        }
+        
+        .notification-icon {
+            position: relative;
+            color: var(--gray);
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: bold;
+        }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Dashboard Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 20px;
+            padding: 20px 0;
+            min-height: calc(100vh - 65px);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: var(--card-bg);
+            border-radius: 6px;
+            padding: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            height: fit-content;
+            position: sticky;
+            top: 85px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item {
+            margin-bottom: 5px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            color: var(--gray);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            gap: 20px;
+            align-content: start;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 6px;
+            padding: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-title {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+        
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--primary);
+        }
+        
+        .stat-change {
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .stat-up {
+            color: var(--success);
+        }
+        
+        .stat-down {
+            color: var(--danger);
+        }
+        
+        /* Data Upload */
+        .upload-card {
+            background: var(--card-bg);
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            text-align: center;
+            border: 2px dashed var(--border-color);
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .upload-card:hover {
+            border-color: var(--primary);
+        }
+        
+        .upload-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        
+        .upload-title {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .upload-desc {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .file-label:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        
+        .file-info {
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        /* Service Table */
+        .table-card {
+            background: var(--card-bg);
+            border-radius: 6px;
+            padding: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+        }
+        
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .table-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        .view-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .view-link:hover {
+            color: var(--primary-light);
+        }
+        
+        .service-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        
+        .service-table th {
+            background: var(--bg-color);
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 500;
+            color: var(--primary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .service-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+        
+        .service-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .service-table tr:hover td {
+            background: var(--bg-color);
+        }
+        
+        .service-name {
+            font-weight: 500;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background: #ecfdf5;
+            color: var(--success);
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: var(--warning);
+        }
+        
+        .status-inactive {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--primary);
+            color: white;
+            padding: 20px 0;
+            margin-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .footer-links a {
+            color: #dee2e6;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            font-size: 0.75rem;
+            color: #adb5bd;
+            order: 2;
+        }
+
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .dashboard {
+                grid-template-columns: 180px 1fr;
+            }
+            
+            .sidebar {
+                padding: 12px;
+            }
+            
+            .nav-link {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .logo-text {
+                font-size: 1.1rem;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+                padding-top: 15px;
+            }
+            
+            .sidebar {
+                position: fixed;
+                top: 65px;
+                left: -250px;
+                width: 220px;
+                height: calc(100vh - 65px);
+                z-index: 90;
+                overflow-y: auto;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                align-items: center;
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .logo-text {
+                font-size: 1rem;
+            }
+            
+            .header-link span {
+                display: none;
+            }
+            
+            .header-link i {
+                font-size: 1.1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .upload-card {
+                padding: 15px;
+            }
+            
+            .upload-title {
+                font-size: 1rem;
+            }
+            
+            .upload-desc {
+                font-size: 0.8rem;
+            }
+            
+            .file-label {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-handshake logo-icon"></i>
+                    <span class="logo-text">BizBooster Services</span>
+                </div>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-links">
+                    <a href="index.html" class="header-link">
+                        <i class="fas fa-arrow-left"></i> <span>Back to Home</span>
+                    </a>
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">2</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="dashboard">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <ul>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="setting.html" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-title">Active Services</div>
+                        <div class="stat-value">24</div>
+                        <div class="stat-change stat-up">
+                            <i class="fas fa-arrow-up"></i> 8% from last month
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Monthly Revenue</div>
+                        <div class="stat-value">$62,480</div>
+                        <div class="stat-change stat-up">
+                            <i class="fas fa-arrow-up"></i> 12% from last month
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Client Satisfaction</div>
+                        <div class="stat-value">94%</div>
+                        <div class="stat-change stat-down">
+                            <i class="fas fa-arrow-down"></i> 2% from last month
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Top Service</div>
+                        <div class="stat-value">SVC-1002</div>
+                        <div class="stat-change">
+                            <i class="fas fa-star" style="color: var(--warning);"></i> 87 bookings
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Data Upload -->
+                <div class="upload-card" id="uploadContainer">
+                    <div class="upload-icon">
+                        <i class="fas fa-file-import"></i>
+                    </div>
+                    <h3 class="upload-title">Import Service Data</h3>
+                    <p class="upload-desc">Upload your service bookings, client data, or service records (CSV)</p>
+                    <input type="file" id="serviceFileInput" class="file-input" accept=".csv, .xlsx, .json">
+                    <label for="serviceFileInput" class="file-label">Choose File</label>
+                    <div class="file-info" id="fileInfo">Supported formats: CSV, Excel, JSON | Minimum size: 20MB</div>
+                </div>
+
+              
+                    <table class="service-table">
+                        <thead>
+                            <tr>
+                                <th>Service ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Bookings</th>
+                                <th>Revenue</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SVC-1001</td>
+                                <td class="service-name">Premium Support</td>
+                                <td>Technical</td>
+                                <td>87</td>
+                                <td>$24,500</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>SVC-1002</td>
+                                <td class="service-name">Business Consultation</td>
+                                <td>Advisory</td>
+                                <td>64</td>
+                                <td>$18,200</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>SVC-1003</td>
+                                <td class="service-name">Implementation</td>
+                                <td>Technical</td>
+                                <td>42</td>
+                                <td>$15,750</td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>SVC-1004</td>
+                                <td class="service-name">Training Workshop</td>
+                                <td>Education</td>
+                                <td>28</td>
+                                <td>$8,400</td>
+                                <td><span class="status-badge status-inactive">Inactive</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="background-color: rgb(44, 34, 54);">
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    &copy; 2025 BizBooster Analytics. All rights reserved. | Version 2.5.0
+                </div>
+                <ul class="footer-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            
+            if (isDarkMode) {
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            menuToggle.innerHTML = sidebar.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // File Upload Functionality
+        const fileInput = document.getElementById('serviceFileInput');
+        const uploadContainer = document.getElementById('uploadContainer');
+        const fileInfo = document.getElementById('fileInfo');
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                const fileSizeMB = file.size / (1024 * 1024);
+                
+                if (fileSizeMB < 20) {
+                    fileInfo.textContent = 'File must be at least 20MB';
+                    fileInfo.style.color = 'var(--danger)';
+                    return;
+                }
+                
+                fileInfo.textContent = `Uploading: ${file.name} (${fileSizeMB.toFixed(2)}MB)`;
+                fileInfo.style.color = 'var(--success)';
+                uploadContainer.style.borderColor = 'var(--success)';
+                
+                setTimeout(() => {
+                    uploadContainer.style.borderColor = 'var(--border-color)';
+                    fileInfo.textContent = 'Upload complete! Processing data...';
+                    alert('Service data imported successfully!');
+                    
+                    document.querySelector('.stat-value').textContent = '26';
+                    document.querySelectorAll('.stat-value')[1].textContent = '$65,200';
+                }, 2000);
+            }
+        });
+
+        const tableRows = document.querySelectorAll('.service-table tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('click', function() {
+                const serviceId = this.cells[0].textContent;
+                alert(`Viewing details for service: ${serviceId}`);
+            });
+        });
+    </script>
+</body>
+</html>
