@@ -604,9 +604,22 @@
                 </ul>
             </aside>
 
-            <!-- Main Content -->
             <main class="main-content">
                 <!-- Stats Grid -->
+                
+
+                <!-- Service Data Upload -->
+                <div class="upload-card" id="uploadContainer">
+                    <div class="upload-icon">
+                        <i class="fas fa-file-import"></i>
+                    </div>
+                    <h3 class="upload-title">Import Service Data</h3>
+                    <p class="upload-desc">Upload your service bookings, client data, or service records (CSV)</p>
+                    <input type="file" id="serviceFileInput" class="file-input" accept=".csv, .xlsx, .json">
+                    <label for="serviceFileInput" class="file-label">Choose File</label>
+                    <div class="file-info" id="fileInfo">Supported formats: CSV, Excel, JSON | Minimum size: 20MB</div>
+                </div>
+
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-title">Active Services</div>
@@ -637,20 +650,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Service Data Upload -->
-                <div class="upload-card" id="uploadContainer">
-                    <div class="upload-icon">
-                        <i class="fas fa-file-import"></i>
-                    </div>
-                    <h3 class="upload-title">Import Service Data</h3>
-                    <p class="upload-desc">Upload your service bookings, client data, or service records (CSV)</p>
-                    <input type="file" id="serviceFileInput" class="file-input" accept=".csv, .xlsx, .json">
-                    <label for="serviceFileInput" class="file-label">Choose File</label>
-                    <div class="file-info" id="fileInfo">Supported formats: CSV, Excel, JSON | Minimum size: 20MB</div>
-                </div>
-
-              
                     <table class="service-table">
                         <thead>
                             <tr>
