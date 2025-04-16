@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <title>Business Analysis Dashboard</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #7209b7;
+            --highlight: #f72585;
+            --success: #4cc9f0;
+            --warning: #ff9e00;
+            --info: #4895ef;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --border: #dee2e6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            min-height: 100vh;
+            padding: 50px;
+        }
+        
+        .dashboard {
+            max-width: 100%;
+            margin: 0 auto;
+            display: grid;
+            grid-template-areas:
+                "company company"
+                "header  header"
+                "metrics notes"
+                "visuals visuals";
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto 1fr auto;
+            gap: 25px;
+            height: 100%;
+        }
+        
+        .company-bar {
+            grid-area: company;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: linear-gradient(24deg, #018aff, #00000087);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .company-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1));
+        }
+        
+        .company-name {
+            font-size: 2rem;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+        
+        .website {
+            font-size: 1rem;
+            opacity: 0.9;
+            z-index: 1;
+        }
+        
+        .website a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .website a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        
+        .main-header {
+            grid-area: header;
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .main-header h1 {
+            color: var(--dark);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .main-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--highlight), var(--accent));
+            border-radius: 4px;
+        }
+        
+        .main-header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 15px auto 0;
+            line-height: 1.6;
+        }
+        
+        .metrics-container {
+            grid-area: metrics;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            align-content: start;
+        }
+        
+        .metric-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            /* border-top: 4px solid var(--primary); */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            position: relative;
+            overflow: hidden;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .metric-box:nth-child(1) {border-top-color: var(--primary);}
+        .metric-box:nth-child(2) { border-top-color: var(--success); }
+        .metric-box:nth-child(3) { border-top-color: var(--warning); }
+        .metric-box:nth-child(4) { border-top-color: var(--highlight); }
+        
+        .metric-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .metric-label {
+            font-size: 0.95rem;
+            color: #6c757d;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        
+        .metric-change {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .metric-change.up {
+            color: #28a745;
+        }
+        
+        .metric-change.down {
+            color: #dc3545;
+        }
+        
+        .metric-change i {
+            margin-right: 5px;
+        }
+        
+        .notes-box {
+            grid-area: notes;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            /* border-top: 4px solid var(--accent); */
+        }
+        
+        .notes-content {
+            flex: 1;
+            background-image: linear-gradient(to bottom, #f1f3f5 1px, transparent 1px);
+            background-size: 100% 28px;
+            line-height: 28px;
+            padding: 5px;
+            outline: none;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        
+        .notes-header {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .visuals-container {
+            grid-area: visuals;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 10px;
+        }
+        
+        .visual-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            aspect-ratio: 1/0.8;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .visual-box:nth-child(1) { border-top-color: var(--primary); }
+        .visual-box:nth-child(2) { border-top-color: var(--success); }
+        .visual-box:nth-child(3) { border-top-color: var(--warning); }
+        .visual-box:nth-child(4) { border-top-color: var(--highlight); }
+        .visual-box:nth-child(5) { border-top-color: var(--accent); }
+        .visual-box:nth-child(6) { border-top-color: var(--info); }
+        
+        .visual-box:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            z-index: 2;
+        }
+        
+        .visual-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #adb5bd;
+            font-size: 1.1rem;
+            position: relative;
+        }
+        
+        .visual-placeholder::before {
+            content: '+';
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-areas:
+                    "company company"
+                    "header header"
+                    "metrics metrics"
+                    "notes notes"
+                    "visuals visuals";
+            }
+            
+            .metrics-container {
+                margin-bottom: 25px;
+            }
+            
+            .notes-box {
+                min-height: 300px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .visuals-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .visuals-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-header h1 {
+                font-size: 2rem;
+            }
+            
+            .company-name {
+                font-size: 1.2rem;
+            }
+            
+            .website {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Company Bar -->
+        <div class="company-bar">
+            <div class="company-name">BizBooster</div>
+            <div class="website"><a href="https://www.yourwebsite.com"></a></div>
+        </div>
+        
+        <div class="main-header">
+            <h1>Business Analysis Result</h1>
+            <p>Comprehensive insights and key performance indicators for strategic decision making</p>
+        </div>
+        
+        <div class="metrics-container">
+            <div class="metric-box animate">
+                <div class="metric-label"></div>
+                <div class="metric-value" style="text-align: center;font-size: 25px;">Total Revenue</div>
+                <div class="metric-change up">
+                </div>
+            </div>
+            
+            <div class="metric-box animate delay-1">
+                <div class="metric-label"></div>
+                <div class="metric-value" style="text-align: center; font-size: 25px;">Top Selling Product</div>
+                <div class="metric-change up">
+                </div>
+            </div>
+            
+            <div class="metric-box animate delay-2">
+                <div class="metric-label"></div>
+                <div class="metric-value" style="text-align: center;font-size: 25px;">Average Order Value</div>
+                <div class="metric-change down">
+                </div>
+            </div>
+            
+            <div class="metric-box animate delay-3">
+                <div class="metric-label"></div>
+                <div class="metric-value" style="text-align: center;font-size: 25px; ">Most Profitable Product</div>
+                <div class="metric-change up">
+                </div>
+            </div>
+        </div>
+        
+        <div class="notes-box animate delay-4">
+            <div class="notes-header" style="text-align: center; font-size: 23px;">Product-wise Revenue</div>
+            <div class="notes-content" contenteditable="true">
+              
+                
+                
+            </div>
+        </div>
+        
+        <div class="visuals-container">
+            <div class="visual-box animate delay-1">
+                <div class="visual-placeholder"></div>
+            </div>
+            <div class="visual-box animate delay-2">
+                <div class="visual-placeholder"></div>
+            </div>
+            <div class="visual-box animate delay-3">
+                <div class="visual-placeholder"></div>
+            </div>
+            <div class="visual-box animate delay-4">
+                <div class="visual-placeholder"></div>
+            </div>
+            <div class="visual-box animate delay-5">
+                <div class="visual-placeholder"></div>
+            </div>
+            <div class="visual-box animate delay-6">
+                <div class="visual-placeholder"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const allBoxes = document.querySelectorAll('.metric-box, .visual-box, .notes-box');
+            
+            allBoxes.forEach(box => {
+                box.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        // Just for demonstration - in real use you'd update content
+                        this.style.transform = 'scale(0.98)';
+                        setTimeout(() => {
+                            this.style.transform = '';
+                        }, 200);
+                        
+                        console.log('Box clicked - update internal content without shifting neighbors');
+                    }
+                });
+            });
+            
+            const notesContent = document.querySelector('.notes-content');
+            notesContent.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+            
+            // Initialize with proper height
+            notesContent.style.height = 'auto';
+            notesContent.style.height = (notesContent.scrollHeight) + 'px';
+        });
+    </script>
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+<script>
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+<script>
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
