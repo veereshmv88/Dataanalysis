@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizBooster - Financial Audit Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #FFFFFF;
+            color: #333333;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 20px 100px;
+        }
+        
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6384, #FFD166, #3B82F6, #8A2BE2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #4A90E2;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            display: flex;
+            margin-top: 50px;
+        }
+        
+        .text-section {
+            width: 45%;
+            padding-right: 50px;
+        }
+        
+        .text-section h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        
+        .text-section p {
+            font-size: 16px;
+            color: #999999;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #4A90E2;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #3B82F6;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+        
+        .graphic-section {
+            width: 55%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .graphic-placeholder {
+            width: 100%;
+            height: 400px;
+            background-color: #F0F4FF;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999999;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .graphic-placeholder::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300"><rect x="50" y="150" width="50" height="150" fill="%233B82F6" rx="5"/><rect x="125" y="100" width="50" height="200" fill="%23FF6384" rx="5"/><rect x="200" y="50" width="50" height="250" fill="%23FFD166" rx="5"/><rect x="275" y="180" width="50" height="120" fill="%238A2BE2" rx="5"/><rect x="350" y="120" width="50" height="180" fill="%234A90E2" rx="5"/><circle cx="100" cy="100" r="50" fill="%23FF6384" opacity="0.7"/><circle cx="300" cy="150" r="40" fill="%23FFD166" opacity="0.7"/><circle cx="400" cy="200" r="30" fill="%233B82F6" opacity="0.7"/></svg>') center/contain no-repeat;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: #F0F4FF;
+            color: #333333;
+            padding: 40px 100px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-column h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-column p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666666;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            text-decoration: none;
+            color: #666666;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #4A90E2;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666666;
+        }
+        
+        /* Chatbot Styles */
+        #chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+        
+        #chatbot-button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #chatbot-button:hover {
+            background-color: #3B82F6;
+            transform: scale(1.1);
+        }
+        
+        #chatbot-window {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            flex-direction: column;
+        }
+        
+        .chatbot-header {
+            background-color: #4A90E2;
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        #close-chatbot {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #F9F9F9;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        
+        .bot-message {
+            background-color: #E5E5EA;
+            color: #000;
+            border-bottom-left-radius: 5px;
+            align-self: flex-start;
+        }
+        
+        .user-message {
+            background-color: #4A90E2;
+            color: white;
+            border-bottom-right-radius: 5px;
+            margin-left: auto;
+        }
+        
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #E5E5EA;
+            background-color: white;
+        }
+        
+        #user-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #E5E5EA;
+            border-radius: 30px;
+            outline: none;
+        }
+        
+        #send-button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+            gap: 5px;
+            background-color: #F9F9F9;
+        }
+        
+        .quick-reply {
+            background-color: #F0F4FF;
+            color: #4A90E2;
+            border: none;
+            border-radius: 15px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-reply:hover {
+            background-color: #4A90E2;
+            color: white;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            padding: 10px 15px;
+            background-color: #E5E5EA;
+            border-radius: 18px;
+            width: fit-content;
+            margin-bottom: 10px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #666;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Chatbot -->
+    <div id="chatbot">
+        <button id="chatbot-button">🤖</button>
+        <div id="chatbot-window">
+            <div class="chatbot-header">
+                <span>Financial Audit Assistant</span>
+                <button id="close-chatbot">×</button>
+            </div>
+            <div class="chatbot-messages" id="chat-messages">
+                <div class="message bot-message">Hello! I'm BizBooster AI, your financial audit assistant. How can I help you today?</div>
+            </div>
+            <div class="quick-replies">
+                <button class="quick-reply" onclick="sendQuickReply('About BizBooster')">About Us</button>
+                <button class="quick-reply" onclick="sendQuickReply('Audit process')">Audit Process</button>
+                <button class="quick-reply" onclick="sendQuickReply('help')">Help</button>
+                <button class="quick-reply" onclick="sendQuickReply('Contact support')">Contact</button>
+                <button class="quick-reply" onclick="sendQuickReply('Financial reports')">Reports</button>
+                <button class="quick-reply" onclick="sendQuickReply('services')">services</button>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button id="send-button">➤</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Chatbot functionality
+const chatbotButton = document.getElementById('chatbot-button');
+const chatbotWindow = document.getElementById('chatbot-window');
+const closeChatbot = document.getElementById('close-chatbot');
+const userInput = document.getElementById('user-input');
+const sendButton = document.getElementById('send-button');
+const chatMessages = document.getElementById('chat-messages');
+
+// Comprehensive knowledge base for local responses
+const knowledgeBase = {
+    // Business-specific responses
+    "about bizbooster": "BizBooster provides comprehensive financial audit solutions to help businesses streamline their accounting processes and ensure compliance. Our team of certified professionals delivers accurate and timely audits tailored to your business needs.",
+    "audit process": "Our 5-step audit process: 1) Planning and risk assessment, 2) Internal control evaluation, 3) Substantive testing, 4) Analysis and findings, 5) Final report with recommendations. Typically takes 2-4 weeks depending on company size.",
+    "audit": "Our 5-step audit process: 1) Planning and risk assessment, 2) Internal control evaluation, 3) Substantive testing, 4) Analysis and findings, 5) Final report with recommendations. Typically takes 2-4 weeks depending on company size.",
+    "pricing": "We offer tiered pricing: Basic ($99/month for small businesses), Professional ($299/month for mid-sized companies), and Enterprise (custom pricing for large corporations). All plans include quarterly financial reviews.",
+    "contact support": "You can reach our support team at support@bizbo oster.com or call +919380022929. Our business hours are Mon-Fri, 9AM-5PM EST.",
+    "financial reports": "We generate comprehensive reports including: Balance Sheets, Income Statements, Cash Flow Statements, and customized KPI dashboards. Reports are available in PDF, Excel, and interactive web formats.",
+    "compliance": "We ensure compliance with GAAP, IFRS, and local regulations. Our experts stay updated on all financial reporting standards and tax laws to keep your business compliant.",
+    "services": "Our services include:\n1 Financial Statement Audits\n2. Internal Audits\n3. Tax Compliance\n4. Forensic Accounting\n5. CFO Advisory Services\n\nWe serve industries from tech startups to manufacturing.",
+    "members": "\n1.Veeresh M V\n2.Tejas Arya\n3.Dhanush R. ",
+
+    // General conversation responses
+    "hi": "Hello! I'm BizBooster AI, your financial audit assistant. How can I help you today?",
+    "hello": "Hello there! I'm here to assist with all your financial audit questions. What would you like to know?",
+    "hey": "Hey! I'm your BizBooster assistant. What can I do for you today?",
+    "good morning": "Good morning! Ready to tackle your financial audit needs. How can I assist you today?",
+    "good afternoon": "Good afternoon! How can I help with your financial or auditing questions?",
+    "good evening": "Good evening! I'm here to help with any financial audit inquiries you might have.",
+    "what's up": "All good here! How can I assist your business today?",
+    "how are you": "I'm great, thank you! Always ready to help with your financial needs.",
+    "who are you": "I'm BizBooster AI, your intelligent assistant for financial analysis and auditing.",
+    "what can you do": "I can help with: financial audit processes, compliance questions, report explanations, pricing information, and general accounting guidance.",
+    "are you a robot": "You could say that! I'm an AI trained to support your business financial needs.",
+    "what is your name": "My name is BizBooster AI!",
+    "what do you do": "I help analyze your financial data, generate reports, and offer insights for smarter business decisions.",
+    "help": "Sure! Just tell me what you'd like help with — reports, audits, compliance, or general financial questions?",
+    "assist me": "Absolutely! What would you like assistance with today?",
+    "i need help": "I'm here for you. Please describe what you need help with.",
+    "thank you": "You're very welcome! 😊",
+    "thanks": "No problem at all!",
+    "okay": "Got it! What would you like to do next?",
+    "ok": "Okay! Let's continue.",
+    "sure": "Great! Tell me what to do.",
+    "cool": "Awesome 😎 What would you like to explore?",
+    "awesome": "Glad you think so! Want to analyze your financial data?",
+    "great": "That's good to hear. Let's keep working on your financial needs!",
+    "that's helpful": "I'm happy to help! Need more info?",
+    "i don't know": "No worries. I can help you figure it out.",
+    "tell me something": "Did you know? Businesses that conduct regular financial audits reduce compliance risks by 45%!",
+    "suggest something": "Try reviewing your quarterly financial statements for insights!",
+    "i'm bored": "How about checking your latest financial KPIs? 📊",
+    "what's the time": "I don't tell time, but I can tell financial trends! 😉",
+    "you're smart": "Thank you! I'm always learning to help you better.",
+    "you're awesome": "You're awesome too! Let's analyze some financial data?",
+    "bye": "See you next time! Keep boosting your business finances. 🚀",
+    "goodbye": "Take care! Ready when you are.",
+    "later": "See you later! I'll be here when you need me.",
+    "talk later": "Sure! Just say hi when you're ready.",
+    "exit": "Logging off now. Have a great day!",
+    "close chatbot": "Chatbot closing. Catch you next time!",
+    "start": "Let's get started! What financial data would you like to review?",
+    "restart": "Restarting... Ready to analyze your finances!",
+    "begin analysis": "Starting the financial analysis now...",
+    "i have a question": "Ask away! I'll do my best to answer your financial questions.",
+    "can you help me": "Of course! I'm your financial data helper.",
+    "explain that": "Sure. Let me break it down for you in financial terms...",
+    "say that again": "No problem. Repeating the financial information...",
+    "repeat": "Here it is again. Let me know if it's clear now.",
+    "go back": "Going back one financial step...",
+    "show previous": "Here's the previous financial report.",
+    "next": "Moving forward to the next financial item.",
+    "continue": "Continuing from where we left off with your financial review.",
+    "more info": "Here's more financial information on that topic...",
+    "why": "Good financial question! Here's why: ...",
+    "what is business analysis": "It's the process of evaluating business financial needs and solutions using data.",
+    "explain data analysis": "It involves interpreting financial data to make informed business decisions.",
+    "tips": "Financial tip: Review your cash flow statements weekly to catch issues early!",
+    "help me decide": "Based on your financial data, I suggest option A for better ROI.",
+    "compare products": "Comparing Product A and Product B financial performance... here's what I found.",
+    "what is trending": "Financial trending now: Service A is getting more client engagement.",
+    "what's new": "There are 12 new financial reports and a 5% increase in revenue this week.",
+    "update me": "You've had 89% financial target achievement and $1.2M revenue so far.",
+    "daily report": "Here's your daily financial summary: Revenue $X, Expenses Y.",
+    "weekly summary": "This week financially: Revenue up 7%, expenses down 10%.",
+    "monthly stats": "Generating monthly financial analytics... done!",
+    "today's insights": "Today's financial insight: Product A outperformed by 23%.",
+    "do i have new clients": "Yes! You've added 10 new clients today with $15K in potential revenue.",
+    "what's the revenue": "Current revenue stands at $X. Would you like a breakdown?",
+    "which product is best": "Based on financials, Product A is performing the best with 35% margin.",
+    "how's my business doing": "Your business finances are healthy! Revenue is up and costs are controlled.",
+    "who's my top client": "Your top financial client is Company XYZ with $15K in purchases.",
+    "can i trust this data": "The financial data is based on your uploads and reports. You can always validate it.",
+    "are you human": "Nope! I'm an AI bot designed to help with financial insights. 🤖",
+    "tell me a joke": "Why did the accountant break up with the banker? They had too many interest-ing conflicts! 💰",
+    "you made a mistake": "Sorry about that financial error! Let's fix it together.",
+    "this is wrong": "I'll recheck the financial data and correct it now.",
+    "it's not working": "Let's troubleshoot the financial report. Can you describe what's wrong?",
+    "fix it": "Working on fixing the financial data... please give me a moment.",
+    "are you real": "I'm a virtual financial assistant with real business knowledge.",
+    "how do you work": "I analyze your financial data and give you smart insights. Simple!",
+    "teach me something": "Sure! Did you know reducing financial reporting time by 1 day can improve decision speed by 30%?",
+    "do you remember me": "I remember your financial preferences from this session!",
+    "you there": "I'm here and ready to help with your financial questions. What's next?",
+    "let's work": "Absolutely! Let's work on your financial reports or analysis.",
+    "analyze now": "Starting your financial analysis now... please hold on.",
+    "can i ask something": "Of course! Ask anything about your business finances.",
+
+    // Financial and data analysis responses
+    "what is data analysis": "Financial data analysis involves inspecting, cleaning, and modeling data to discover useful information for business decision-making.",
+    "show sales performance": "Sure! Here's a financial summary of your current sales performance based on recent data.",
+    "revenue last month": "Last month's financial revenue was $XXX. Would you like a breakdown by product or service?",
+    "customer segmentation": "Financial customer segmentation divides your audience into groups based on shared characteristics to optimize targeting and pricing.",
+    "monthly report": "Generating your monthly financial performance report now...",
+    "weekly stats": "Here are your weekly financial stats. Do you want to filter by category or product?",
+    "sales trend": "Here's a financial chart of your recent sales trends. Would you like predictions too?",
+    "predict future sales": "Based on current financial trends, your projected sales for next month are $XXX.",
+    "high performing products": "Your top-performing financial products this period are: 1. X, 2. Y, 3. Z.",
+    "inventory levels": "You currently have 548 items in stock across all categories with $XX inventory value.",
+    "low stock warning": "These items are low on stock: Item A, Item B. Consider financial implications of restocking soon.",
+    "churn rate": "Your current customer churn rate is 6.4%. Lowering it can improve financial retention.",
+    "conversion rate": "Your financial conversion rate is 12.5% based on recent campaign data.",
+    "funnel analysis": "Here's your financial sales funnel: Awareness > Interest > Conversion. Let's analyze financial drop-offs.",
+    "client acquisition": "You gained 245 new clients this month financially. That's a 15% increase!",
+    "marketing effectiveness": "Your latest financial campaign had a 5.2% click-through rate and a 7.8% conversion rate.",
+    "customer satisfaction": "Financial satisfaction score is 89%. Do you want to explore customer feedback?",
+    "revenue growth": "Financial revenue has grown 12% compared to last quarter.",
+    "kpi dashboard": "Opening your financial KPI dashboard now...",
+    "business performance": "Here's a financial overview of your current business performance.",
+    "generate insights": "Analyzing your financial data to generate actionable insights...",
+    "daily metrics": "Your daily financial metrics show a 4% increase in transaction activity.",
+    "profit margin": "Your financial profit margin this quarter is 26.4%.",
+    "sales by region": "Most financial sales came from Region A (45%), followed by Region B (30%).",
+    "export data": "Exporting your financial data to CSV... Done! Would you like email delivery too?",
+    "import file": "Upload a financial CSV file and I'll process the data for you.",
+    "compare months": "Comparing this month vs. last financially: Revenue +8%, Costs -5%.",
+    "product analytics": "Product A is financially outperforming others by 24%. Let's dive deeper?",
+    "service performance": "Financial service satisfaction is high at 91%. Engagement is trending upward.",
+    "filter by date": "Please choose a financial date range. I'll filter the data accordingly.",
+    "ai recommendations": "Based on current financial trends, I recommend focusing on Product B for higher returns.",
+    "pricing analysis": "Product B has the highest financial ROI at the current price.",
+    "user activity": "12,548 financial transactions today. Engagement is above average.",
+    "top customers": "Your top 5 financial customers based on revenue: 1. A, 2. B...",
+    "return on investment (roi)": "Your current financial ROI is 34.2%, a strong performance.",
+    "break-even analysis": "Your financial break-even point was reached 10 days earlier than last month.",
+    "new leads": "You gained 47 new financial leads from the last campaign.",
+    "revenue forecast": "Projected financial revenue for next month is $135,000.",
+    "upload business data": "Please upload your financial data file to begin the analysis.",
+    "visualize data": "Generating financial visual charts now... which type would you prefer: bar, pie, or line?",
+    "show me trends": "Analyzing financial trends in your business growth now...",
+    "show dashboard": "Opening your financial analytics dashboard. What section would you like to focus on?",
+    "how's my business doing": "Overall financial business health is positive. Revenue and margins are up.",
+    "repeat last report": "Repeating your last financial report with current data.",
+    "analyze services": "Your top financial services this month are X and Y.",
+    "product performance": "Product A contributed 60% to your total financial revenue.",
+    "cost analysis": "Analyzing your financial operational costs... the main cost driver is Logistics.",
+    "sales forecast": "You're projected to close $250K in financial sales next quarter.",
+    "satisfaction feedback": "Most positive financial feedback highlights payment flexibility and reporting clarity.",
+    "show service quality": "Financial service quality rating is 92%. No major issues flagged.",
+    "top selling items": "This week's top-selling financial item: Product Z.",
+    "generate pdf report": "Creating a downloadable financial PDF report for your selected range...",
+    "email summary": "Would you like me to email today's financial performance summary?",
+    "real-time data": "Displaying real-time financial business data.",
+    "revenue breakdown": "60% products, 40% services financially. Want detailed categories?",
+    "best sales channel": "Email marketing converted the most financial sales this week.",
+    "funnel conversion rate": "Financial funnel conversion is at 14%, with drop-offs mostly at the 'Interest' stage.",
+    "net profit": "Your financial net profit is $85,000 for this quarter.",
+    "gross revenue": "Financial gross revenue stands at $1.2M for this period.",
+    "net revenue": "After financial costs, your net revenue is $865K.",
+    "daily revenue": "You earned $4,352 today so far financially.",
+    "weekly performance": "Weekly financial performance is up by 9% overall.",
+    "business summary": "Your financial business summary shows positive growth across key KPIs.",
+    "alert me on drop": "Financial notification set. I'll alert you when revenue drops 10% or more.",
+    "show heatmap": "Here's a financial heatmap of sales activity by region.",
+    "customer feedback": "Want to review top financial customer comments from this week?",
+    "chart analytics": "Choose your financial chart type: bar, pie, line, scatter.",
+    "new client count": "You've added 32 new financial clients this week.",
+    "lost clients": "You lost 5 financial clients last month. Would you like reasons?",
+    "retention rate": "Financial retention is currently 91.3%. That's a strong figure.",
+    "service downtime": "No reported financial downtimes this week.",
+    "optimize sales": "Try targeting high-performing financial regions and bundling Product A with B.",
+    "productivity report": "Your financial team's average task completion rate is 88%.",
+    "business strategy": "Would you like AI-generated financial strategy recommendations?",
+    "competitor comparison": "Comparing financial performance to competitors: You're ahead in 3 of 5 KPIs.",
+    "performance gap": "Financial revenue is 12% below target. Suggestions incoming.",
+    "weekly goals": "You've met 4 out of 5 weekly financial business goals.",
+    "yearly summary": "Annual financial revenue up by 22%, satisfaction up by 9%.",
+    "benchmark data": "Financial benchmarking with industry average... you're performing above average."
+};
+
+// Toggle chatbot window
+chatbotButton.addEventListener('click', () => {
+    chatbotWindow.style.display = 'flex';
+});
+
+closeChatbot.addEventListener('click', () => {
+    chatbotWindow.style.display = 'none';
+});
+
+// Show typing indicator
+function showTypingIndicator() {
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'typing-indicator';
+    typingDiv.id = 'typing-indicator';
+    typingDiv.innerHTML = `
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+    `;
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Hide typing indicator
+function hideTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+}
+
+// Send message function
+async function sendMessage() {
+    const message = userInput.value.trim();
+    if (message) {
+        // Add user message
+        addMessage(message, 'user');
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        // Process and add bot response
+        try {
+            const response = await getBotResponse(message);
+            hideTypingIndicator();
+            addMessage(response, 'bot');
+        } catch (error) {
+            hideTypingIndicator();
+            addMessage("I'm having trouble processing your request. Please try again later.", 'bot');
+            console.error("Error getting bot response:", error);
+        }
+        
+        // Clear input
+        userInput.value = '';
+    }
+}
+
+// Quick reply function
+async function sendQuickReply(message) {
+    // Add user message
+    addMessage(message, 'user');
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    // Process and add bot response
+    try {
+        const response = await getBotResponse(message);
+        hideTypingIndicator();
+        addMessage(response, 'bot');
+    } catch (error) {
+        hideTypingIndicator();
+        addMessage("I'm having trouble processing your request. Please try again later.", 'bot');
+        console.error("Error getting bot response:", error);
+    }
+}
+
+// Add message to chat
+function addMessage(text, sender) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message');
+    messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+    messageDiv.textContent = text;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Get bot response based on user input
+async function getBotResponse(input) {
+    input = input.toLowerCase();
+    
+    // First check knowledge base for direct matches
+    for (const [keyword, response] of Object.entries(knowledgeBase)) {
+        if (input.includes(keyword)) {
+            return response;
+        }
+    }
+    
+    // Check for partial matches with some flexibility
+    const words = input.split(' ');
+    for (const word of words) {
+        if (knowledgeBase[word]) {
+            return knowledgeBase[word];
+        }
+    }
+    
+    // If no local match, use OpenAI API (replace with your actual API key)
+    // Note: In production, you should call this from a backend service for security
+    const OPENAI_API_KEY = 'sk-your-openai-api-key-here'; // Replace with your actual key
+    
+    try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "gpt-3.5-turbo",
+                messages: [
+                    {
+                        role: "system",
+                        content: "You are a helpful financial audit assistant for BizBooster. Provide concise, professional answers to questions about financial auditing, accounting, and business analysis. Keep responses under 150 words. If unsure, say you'll need to consult a human expert."
+                    },
+                    {
+                        role: "user",
+                        content: input
+                    }
+                ],
+                temperature: 0.7,
+                max_tokens: 150
+            })
+        });
+        
+        const data = await response.json();
+        return data.choices[0]?.message?.content || "I'm not sure how to answer that financial question. Could you rephrase it?";
+    } catch (error) {
+        console.error("Error calling OpenAI:", error);
+        return "I'm having trouble accessing advanced financial features right now. Please try a more specific question about financial audits or our services.";
+    }
+}
+
+// Event listeners for sending messages
+sendButton.addEventListener('click', sendMessage);
+userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+// Initial greeting
+setTimeout(() => {
+    addMessage("Need quick financial answers? Try clicking one of the buttons below!", 'bot');
+}, 1500);
+    </script>
+</body>
+</html>
