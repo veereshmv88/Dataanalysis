@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizBooster - Business Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --primary-dark: #5649c0;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+            --dark: #2d3436;
+            --light: #f8f9fa;
+            --gray: #636e72;
+            --gray-light: #dfe6e9;
+            
+            /* Gradient colors */
+            --gradient-1: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            --gradient-2: linear-gradient(135deg, #00b894 0%, #55efc4 100%);
+        }
+
+        * {
+            margin: 10 px;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background-color: #FFFFFF;
+            color: #333333;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 20px 100px;
+        }
+        
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6384, #FFD166, #3B82F6, #8A2BE2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #4A90E2;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            display: flex;
+            margin-top: 50px;
+        }
+        
+        .text-section {
+            width: 45%;
+            padding-right: 50px;
+        }
+        
+        .text-section h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        
+        .text-section p {
+            font-size: 16px;
+            color: #999999;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #4A90E2;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #3B82F6;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+        
+        .graphic-section {
+            width: 55%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .graphic-placeholder {
+            width: 100%;
+            height: 400px;
+            background-color: #F0F4FF;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999999;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .graphic-placeholder::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300"><rect x="50" y="150" width="50" height="150" fill="%233B82F6" rx="5"/><rect x="125" y="100" width="50" height="200" fill="%23FF6384" rx="5"/><rect x="200" y="50" width="50" height="250" fill="%23FFD166" rx="5"/><rect x="275" y="180" width="50" height="120" fill="%238A2BE2" rx="5"/><rect x="350" y="120" width="50" height="180" fill="%234A90E2" rx="5"/><circle cx="100" cy="100" r="50" fill="%23FF6384" opacity="0.7"/><circle cx="300" cy="150" r="40" fill="%23FFD166" opacity="0.7"/><circle cx="400" cy="200" r="30" fill="%233B82F6" opacity="0.7"/></svg>') center/contain no-repeat;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: #F0F4FF;
+            color: #333333;
+            padding: 40px 100px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-column h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-column p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666666;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            text-decoration: none;
+            color: #666666;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #4A90E2;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666666;
+        }
+        
+        /* Chatbot Styles */
+        #chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+        }
+        
+        #chatbot-button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #chatbot-button:hover {
+            background-color: #3B82F6;
+            transform: scale(1.1);
+        }
+        
+        #chatbot-window {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            flex-direction: column;
+        }
+        
+        .chatbot-header {
+            background-color: #4A90E2;
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        #close-chatbot {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #F9F9F9;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        
+        .bot-message {
+            background-color: #E5E5EA;
+            color: #000;
+            border-bottom-left-radius: 5px;
+            align-self: flex-start;
+        }
+        
+        .user-message {
+            background-color: #4A90E2;
+            color: white;
+            border-bottom-right-radius: 5px;
+            margin-left: auto;
+        }
+        
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #E5E5EA;
+            background-color: white;
+        }
+        
+        #user-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #E5E5EA;
+            border-radius: 30px;
+            outline: none;
+        }
+        
+        #send-button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+            gap: 5px;
+            background-color: #F9F9F9;
+        }
+        
+        .quick-reply {
+            background-color: #F0F4FF;
+            color: #4A90E2;
+            border: none;
+            border-radius: 15px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-reply:hover {
+            background-color: #4A90E2;
+            color: white;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            padding: 10px 15px;
+            background-color: #E5E5EA;
+            border-radius: 18px;
+            width: fit-content;
+            margin-bottom: 10px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #666;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        /* Mini Chatbot Styles */
+#chatbot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+#chatbot-button {
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px; /* Reduced from 60px */
+    height: 50px; /* Reduced from 60px */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15); /* Lighter shadow */
+    font-size: 20px; /* Reduced from 24px */
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#chatbot-window {
+    display: none;
+    position: fixed;
+    bottom: 80px; /* Adjusted from 90px */
+    right: 20px;
+    width: 280px; /* Reduced from 350px */
+    height: 380px; /* Reduced from 500px */
+    background-color: white;
+    border-radius: 12px; /* Slightly smaller radius */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12); /* Lighter shadow */
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.chatbot-header {
+    padding: 12px 15px; /* Reduced padding */
+    font-size: 14px; /* Smaller text */
+}
+
+.chatbot-messages {
+    padding: 12px; /* Reduced padding */
+    font-size: 13px; /* Smaller message text */
+}
+
+.message {
+    max-width: 85%; /* Slightly wider messages */
+    padding: 8px 12px; /* Reduced padding */
+    font-size: 13px; /* Smaller text */
+    margin-bottom: 8px; /* Reduced spacing */
+}
+
+.quick-replies {
+    padding: 8px; /* Reduced padding */
+}
+
+.quick-reply {
+    padding: 4px 8px; /* Smaller buttons */
+    font-size: 11px; /* Smaller text */
+}
+
+.chatbot-input {
+    padding: 8px; /* Reduced padding */
+}
+
+#user-input {
+    padding: 8px 12px; /* Reduced padding */
+    font-size: 13px; /* Smaller text */
+}
+
+#send-button {
+    width: 36px; /* Reduced from 40px */
+    height: 36px; /* Reduced from 40px */
+    font-size: 14px; /* Smaller arrow */
+}
+
+.typing-dot {
+    width: 6px; /* Smaller dots */
+    height: 6px; /* Smaller dots */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+    #chatbot-window {
+        width: 260px;
+        height: 360px;
+        bottom: 70px;
+        right: 10px;
+    }
+    
+    #chatbot-button {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+}
+        
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+        body {
+            background-color: white;
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+        }
+        
+        /* Header/Navigation */
+        .header {
+            text-align: center;
+            display: flex;
+            padding: 40px 0 0px;
+            position: relative;
+            margin-bottom: 30px;
+            align-items: center;
+            justify-content: space-between;
+            align-content: space-between;
+            flex-wrap: nowrap;
+        }
+        
+        .company-name {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .company-name i {
+            font-size: 3.5rem;
+            color: var(--primary);
+            text-shadow: 0 4px 8px rgba(108, 92, 231, 0.3);
+        }
+        
+        .floating-letters {
+            display: flex;
+        }
+        
+        .floating-letters span {
+            display: inline-block;
+            transition: all 0.3s ease;
+            transform-origin: bottom center;
+            cursor: pointer;
+        }
+        
+        .floating-letters span:hover {
+            animation: floatLetter 0.8s ease infinite alternate;
+        }
+        
+        @keyframes floatLetter {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                text-shadow: 0 0 0 rgba(108, 92, 231, 0);
+            }
+            100% {
+                transform: translateY(-15px) rotate(5deg);
+                text-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+                color: var(--primary);
+            }
+        }
+        
+        .company-tagline {
+            font-size: 1.3rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            padding: 0 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .company-tagline::before,
+        .company-tagline::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-light), transparent);
+        }
+        
+        .company-tagline::before {
+            left: -30px;
+        }
+        
+        .company-tagline::after {
+            right: -30px;
+            background: linear-gradient(90deg, transparent, var(--primary-light));
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            padding: 5px 0;
+        }
+        
+        .hero-content {
+            flex: 1;
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+        
+        /* Upload Section */
+        .upload-container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-top: 40px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(108, 92, 231, 0.1);
+            background-color: #f9f9ff;
+        }
+        
+        .upload-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-position: right center;
+            background-repeat: no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .upload-box {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .upload-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .upload-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            filter: drop-shadow(0 10px 20px rgba(108, 92, 231, 0.2));
+        }
+        
+        .upload-card {
+            text-align: center;
+            border: 2px dashed var(--gray-light);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .upload-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-1);
+        }
+        
+        .upload-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(108, 92, 231, 0.2);
+        }
+        
+        .upload-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .upload-desc {
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-upload {
+            padding: 15px 30px;
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(108, 92, 231, 0.3);
+            margin-bottom: 15px;
+            display: inline-flex;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .file-upload::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .file-upload:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(108, 92, 231, 0.4);
+        }
+        
+        .file-upload:hover::before {
+            left: 100%;
+        }
+        
+        .file-info {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(108, 92, 231, 0.05);
+            min-width: 120px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 80px 0;
+            background: linear-gradient(to bottom, #f9f9ff, white);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid rgba(108, 92, 231, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .feature-desc {
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        /* Analytics Preview */
+        .analytics-preview {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .preview-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-top: 0px;
+            flex-wrap: nowrap;
+        }
+        
+        
+        .preview-content {
+            flex: 1;
+        }
+        
+        .preview-content h3 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .preview-content p {
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .preview-image {
+            flex: 1;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+        
+        .preview-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 60px 0 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.03)" d="M0,0 L100,0 L100,100 L0,100 Z"></path></svg>');
+            background-size: cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-logo i {
+            font-size: 1.8rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .footer-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+        
+        .footer-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-stat {
+            text-align: center;
+        }
+        
+        .footer-stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .footer-stat-label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: white;
+            color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .upload-container {
+                flex-direction: column;
+            }
+            
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .preview-container {
+                flex-direction: column;
+            }
+            
+            .preview-content, .preview-image {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .company-name {
+                font-size: 2.5rem;
+            }
+            
+            .company-name i {
+                font-size: 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .upload-card {
+                padding: 30px;
+            }
+            
+            .upload-title {
+                font-size: 1.5rem;
+            }
+            
+            .file-upload {
+                padding: 12px 25px;
+                font-size: 1rem;
+                margin-right: 0;
+                margin-bottom: 15px;
+                display: block;
+                width: 100%;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .company-name {
+                font-size: 2rem;
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .company-name i {
+                font-size: 1.8rem;
+            }
+            
+            .floating-letters {
+                margin-top: 5px;
+            }
+            
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            
+            .upload-card {
+                padding: 25px 20px;
+            }
+            
+            .upload-icon {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .footer-stats {
+                gap: 15px;
+            }
+            
+            .footer-stat {
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <div class="container">
+        <div class="header">
+            <div class="company-name" id="companyName">
+                <i class="fas fa-chart-network"></i>
+                <div class="floating-letters">
+                    <span>B</span>
+                    <span>i</span>
+                    <span>z</span>
+                    <span>B</span>
+                    <span>o</span>
+                    <span>o</span>
+                    <span>s</span>
+                    <span>t</span>
+                    <span>e</span>
+                    <span>r</span>
+                </div>
+            </div>
+            <div class="company-tagline" id="companyTagline">
+                Data-Driven Decisions for Modern Businesses
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Your Business Booster Partner</h1>
+                <p>We empower your decisions with smart data insights</p>
+                
+                <!-- Upload Section with Background Image -->
+                <div class="upload-container">
+                    <div class="upload-background"></div>
+                    <div class="upload-box">
+                        <div class="upload-card">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <h3 class="upload-title">Upload Your Data</h3>
+                            <p class="upload-desc">Get started by uploading your product inventory, sales data, or customer information to unlock powerful analytics.</p>
+                            
+                            <form id="uploadForm" method="POST" enctype="multipart/form-data" action="{{ url_for('upload_csv_prod') }}">
+                                <input type="file" id="fileInput" class="file-input" name="file" accept=".csv,.xlsx" required>
+                                <label for="fileInput" class="file-upload">Choose File</label>
+                                <button type="submit" class="file-upload" style="background: var(--success);">Analyze Now</button>
+                            </form>
+                            
+                            <div class="file-info">Supported formats: CSV, XLSX (Max 50MB)</div>
+                            
+                           
+                        </div>
+                    </div>
+                    <div class="upload-image">
+                        <img src="data-report-concept-illustration_114360-1131.avif" alt="Data Analytics Illustration">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Powerful Analytics at Your Fingertips</h2>
+                <p>Transform your raw business data into actionable insights with our comprehensive analytics platform</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="feature-title">Sales Performance</h3>
+                    <p class="feature-desc">Track sales trends, identify top-performing products, and optimize your pricing strategy with real-time analytics.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <h3 class="feature-title">Inventory Management</h3>
+                    <p class="feature-desc">Monitor stock levels, predict demand, and prevent stockouts with intelligent inventory analytics.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Customer Insights</h3>
+                    <p class="feature-desc">Understand customer behavior, segment your audience, and personalize your marketing strategies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Chatbot -->
+<div id="chatbot" style="z-index: 1;">
+    <button id="chatbot-button">🤖</button>
+    <div id="chatbot-window">
+        <div class="chatbot-header">
+            <span>Financial Audit Assistant</span>
+            <button id="close-chatbot">×</button>
+        </div>
+        <div class="chatbot-messages" id="chat-messages">
+            <div class="message bot-message">Hello! I'm BizBooster AI, your financial audit assistant. How can I help you today?</div>
+        </div>
+        <div class="quick-replies">
+            <button class="quick-reply" onclick="sendQuickReply('About BizBooster')">About Us</button>
+            <button class="quick-reply" onclick="sendQuickReply('Audit process')">Audit Process</button>
+            <button class="quick-reply" onclick="sendQuickReply('help')">Help</button>
+            <button class="quick-reply" onclick="sendQuickReply('Contact support')">Contact</button>
+            <button class="quick-reply" onclick="sendQuickReply('Financial reports')">Reports</button>
+            <button class="quick-reply" onclick="sendQuickReply('services')">services</button>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-button">➤</button>
+        </div>
+    </div>
+</div>
+    <!-- Analytics Preview -->
+    <section class="analytics-preview">
+        <div class="container">
+            <div class="preview-container">
+                <div class="preview-content">
+                    <h3>Visualize Your Business Growth</h3>
+                    <p>Our interactive dashboards provide clear, actionable insights into every aspect of your business. Identify opportunities, spot trends, and make data-driven decisions with confidence.</p>
+                    <p>From revenue breakdowns to customer demographics, BizBooster presents your data in intuitive visual formats that anyone can understand.</p>
+                </div>
+                <div class="preview-image">
+                    <img src="data-analytics-flat-style-design-vector-illustration-stock-illustration_357500-3334.avif" alt="Analytics Dashboard Preview">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <a href="#" class="footer-logo">
+                    <i class="fas fa-chart-line"></i>
+                    BizBooster
+                </a>
+                
+                <div class="footer-stats">
+                    <div class="footer-stat">
+                        <div class="footer-stat-value" id="totalUsers">24,891</div>
+                        <div class="footer-stat-label">Active Users</div>
+                    </div>
+                    <div class="footer-stat">
+                        <div class="footer-stat-value" id="dataProcessed">15.7TB</div>
+                        <div class="footer-stat-label">Data Processed</div>
+                    </div>
+                    <div class="footer-stat">
+                        <div class="footer-stat-value" id="uptime">99.99%</div>
+                        <div class="footer-stat-label">Uptime</div>
+                    </div>
+                </div>
+                
+                <ul class="footer-links">
+                    <li><a href="mainindex.html">Home</a></li>            
+                    <li><a href="privacypolicy.html">Privacy Policy</a></li>
+                    <li><a href="termsofservice.html">Terms of Service</a></li>
+                    
+                </ul>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+                
+                <div class="copyright">
+                    &copy; 2025 BizBooster Analytics. All rights reserved.<br>
+                    <small id="currentDateTime">Loading...</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Letter floating animation on click
+            const letters = document.querySelectorAll('.floating-letters span');
+            
+            letters.forEach(letter => {
+                letter.addEventListener('click', function() {
+                    // Reset all letters
+                    letters.forEach(l => {
+                        l.style.animation = 'none';
+                        void l.offsetWidth; // Trigger reflow
+                    });
+                    
+                    // Apply animation to clicked letter
+                    this.style.animation = 'floatLetter 0.8s ease infinite alternate';
+                });
+            });
+            
+            // File upload interaction
+            const fileInput = document.getElementById('fileInput');
+            const uploadForm = document.getElementById('uploadForm');
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    // You can display the file name if needed
+                    console.log('File selected:', this.files[0].name);
+                }
+            });
+            
+            // Dynamic stats animation
+            function animateValue(id, start, end, duration, suffix = '') {
+                const obj = document.getElementById(id);
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const value = Math.floor(progress * (end - start) + start);
+                    obj.innerHTML = suffix ? value.toLocaleString() + suffix : value.toLocaleString();
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+            
+            // Randomize stats periodically
+            function randomizeStats() {
+                // Upload section stats
+                animateValue('filesProcessed', 0, Math.floor(Math.random() * 5000) + 10000, 1000);
+                animateValue('avgProcessingTime', 0, Math.random() * 2 + 1, 800);
+                document.getElementById('accuracyRate').textContent = (Math.random() * 2 + 97).toFixed(1) + '%';
+                
+                // Footer stats
+                animateValue('totalUsers', 0, Math.floor(Math.random() * 10000) + 20000, 1200);
+                animateValue('dataProcessed', 0, Math.random() * 5 + 12, 1000, 'TB');
+                document.getElementById('uptime').textContent = (Math.random() * 0.1 + 99.9).toFixed(2) + '%';
+                
+                // Schedule next randomization
+                setTimeout(randomizeStats, 15000); // Every 15 seconds
+            }
+            
+            // Initial stats animation
+            setTimeout(randomizeStats, 1000);
+            
+            // Update date and time in footer
+            function updateDateTime() {
+                const now = new Date();
+                const options = { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    timeZoneName: 'short'
+                };
+                document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+            }
+            
+            updateDateTime();
+            setInterval(updateDateTime, 1000); // Update every second
+            
+          
+            let currentImageIndex = 0;
+            const uploadBackground = document.querySelector('.upload-background');
+            
+            // Set initial background
+            uploadBackground.style.backgroundImage = `url('${backgroundImages[currentImageIndex]}')`;
+            
+            // Rotate images
+            setInterval(() => {
+                currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
+                
+                // Fade out
+                uploadBackground.style.opacity = '0';
+                
+                // Change image after fade out
+                setTimeout(() => {
+                    uploadBackground.style.backgroundImage = `url('${backgroundImages[currentImageIndex]}')`;
+                    // Fade in
+                    uploadBackground.style.opacity = '0.1';
+                }, 500);
+            }, 5000);
+        });
+
+    
+        // Chatbot functionality
+const chatbotButton = document.getElementById('chatbot-button');
+const chatbotWindow = document.getElementById('chatbot-window');
+const closeChatbot = document.getElementById('close-chatbot');
+const userInput = document.getElementById('user-input');
+const sendButton = document.getElementById('send-button');
+const chatMessages = document.getElementById('chat-messages');
+
+// Comprehensive knowledge base for local responses
+const knowledgeBase = {
+    // Business-specific responses
+    "about bizbooster": "BizBooster provides comprehensive financial audit solutions to help businesses streamline their accounting processes and ensure compliance. Our team of certified professionals delivers accurate and timely audits tailored to your business needs.",
+    "audit process": "Our 5-step audit process: 1) Planning and risk assessment, 2) Internal control evaluation, 3) Substantive testing, 4) Analysis and findings, 5) Final report with recommendations. Typically takes 2-4 weeks depending on company size.",
+    "audit": "Our 5-step audit process: 1) Planning and risk assessment, 2) Internal control evaluation, 3) Substantive testing, 4) Analysis and findings, 5) Final report with recommendations. Typically takes 2-4 weeks depending on company size.",
+    "pricing": "We offer tiered pricing: Basic ($99/month for small businesses), Professional ($299/month for mid-sized companies), and Enterprise (custom pricing for large corporations). All plans include quarterly financial reviews.",
+    "contact support": "You can reach our support team at support@bizbooster.com or call +91 9380022929. Our business hours are Mon-Fri, 9AM-5PM.",
+    "financial reports": "We generate comprehensive reports including: Balance Sheets, Income Statements, Cash Flow Statements, and customized KPI dashboards. Reports are available in PDF, Excel, and interactive web formats.",
+    "compliance": "We ensure compliance with GAAP, IFRS, and local regulations. Our experts stay updated on all financial reporting standards and tax laws to keep your business compliant.",
+    "services": "Our services include:\n1 Financial Statement Audits\n2. Internal Audits\n3. Tax Compliance\n4. Forensic Accounting\n5. CFO Advisory Services\n\nWe serve industries from tech startups to manufacturing.",
+
+    // General conversation responses
+    "hi": "Hello! I'm BizBooster AI, your financial audit assistant. How can I help you today?",
+    "hello": "Hello there! I'm here to assist with all your financial audit questions. What would you like to know?",
+    "hey": "Hey! I'm your BizBooster assistant. What can I do for you today?",
+    "good morning": "Good morning! Ready to tackle your financial audit needs. How can I assist you today?",
+    "good afternoon": "Good afternoon! How can I help with your financial or auditing questions?",
+    "good evening": "Good evening! I'm here to help with any financial audit inquiries you might have.",
+    "what's up": "All good here! How can I assist your business today?",
+    "how are you": "I'm great, thank you! Always ready to help with your financial needs.",
+    "who are you": "I'm BizBooster AI, your intelligent assistant for financial analysis and auditing.",
+    "what can you do": "I can help with: financial audit processes, compliance questions, report explanations, pricing information, and general accounting guidance.",
+    "are you a robot": "You could say that! I'm an AI trained to support your business financial needs.",
+    "what is your name": "My name is BizBooster AI!",
+    "what do you do": "I help analyze your financial data, generate reports, and offer insights for smarter business decisions.",
+    "help": "Sure! Just tell me what you'd like help with — reports, audits, compliance, or general financial questions?",
+    "assist me": "Absolutely! What would you like assistance with today?",
+    "i need help": "I'm here for you. Please describe what you need help with.",
+    "thank you": "You're very welcome! 😊",
+    "thanks": "No problem at all!",
+    "okay": "Got it! What would you like to do next?",
+    "ok": "Okay! Let's continue.",
+    "sure": "Great! Tell me what to do.",
+    "cool": "Awesome 😎 What would you like to explore?",
+    "awesome": "Glad you think so! Want to analyze your financial data?",
+    "great": "That's good to hear. Let's keep working on your financial needs!",
+    "that's helpful": "I'm happy to help! Need more info?",
+    "i don't know": "No worries. I can help you figure it out.",
+    "tell me something": "Did you know? Businesses that conduct regular financial audits reduce compliance risks by 45%!",
+    "suggest something": "Try reviewing your quarterly financial statements for insights!",
+    "i'm bored": "How about checking your latest financial KPIs? 📊",
+    "what's the time": "I don't tell time, but I can tell financial trends! 😉",
+    "you're smart": "Thank you! I'm always learning to help you better.",
+    "you're awesome": "You're awesome too! Let's analyze some financial data?",
+    "bye": "See you next time! Keep boosting your business finances. 🚀",
+    "goodbye": "Take care! Ready when you are.",
+    "later": "See you later! I'll be here when you need me.",
+    "talk later": "Sure! Just say hi when you're ready.",
+    "exit": "Logging off now. Have a great day!",
+    "close chatbot": "Chatbot closing. Catch you next time!",
+    "start": "Let's get started! What financial data would you like to review?",
+    "restart": "Restarting... Ready to analyze your finances!",
+    "begin analysis": "Starting the financial analysis now...",
+    "i have a question": "Ask away! I'll do my best to answer your financial questions.",
+    "can you help me": "Of course! I'm your financial data helper.",
+    "explain that": "Sure. Let me break it down for you in financial terms...",
+    "say that again": "No problem. Repeating the financial information...",
+    "repeat": "Here it is again. Let me know if it's clear now.",
+    "go back": "Going back one financial step...",
+    "show previous": "Here's the previous financial report.",
+    "next": "Moving forward to the next financial item.",
+    "continue": "Continuing from where we left off with your financial review.",
+    "more info": "Here's more financial information on that topic...",
+    "why": "Good financial question! Here's why: ...",
+    "what is business analysis": "It's the process of evaluating business financial needs and solutions using data.",
+    "explain data analysis": "It involves interpreting financial data to make informed business decisions.",
+    "tips": "Financial tip: Review your cash flow statements weekly to catch issues early!",
+    "help me decide": "Based on your financial data, I suggest option A for better ROI.",
+    "compare products": "Comparing Product A and Product B financial performance... here's what I found.",
+    "what is trending": "Financial trending now: Service A is getting more client engagement.",
+    "what's new": "There are 12 new financial reports and a 5% increase in revenue this week.",
+    "update me": "You've had 89% financial target achievement and $1.2M revenue so far.",
+    "daily report": "Here's your daily financial summary: Revenue $X, Expenses Y.",
+    "weekly summary": "This week financially: Revenue up 7%, expenses down 10%.",
+    "monthly stats": "Generating monthly financial analytics... done!",
+    "today's insights": "Today's financial insight: Product A outperformed by 23%.",
+    "do i have new clients": "Yes! You've added 10 new clients today with $15K in potential revenue.",
+    "what's the revenue": "Current revenue stands at $X. Would you like a breakdown?",
+    "which product is best": "Based on financials, Product A is performing the best with 35% margin.",
+    "how's my business doing": "Your business finances are healthy! Revenue is up and costs are controlled.",
+    "who's my top client": "Your top financial client is Company XYZ with $15K in purchases.",
+    "can i trust this data": "The financial data is based on your uploads and reports. You can always validate it.",
+    "are you human": "Nope! I'm an AI bot designed to help with financial insights. 🤖",
+    "tell me a joke": "Why did the accountant break up with the banker? They had too many interest-ing conflicts! 💰",
+    "you made a mistake": "Sorry about that financial error! Let's fix it together.",
+    "this is wrong": "I'll recheck the financial data and correct it now.",
+    "it's not working": "Let's troubleshoot the financial report. Can you describe what's wrong?",
+    "fix it": "Working on fixing the financial data... please give me a moment.",
+    "are you real": "I'm a virtual financial assistant with real business knowledge.",
+    "how do you work": "I analyze your financial data and give you smart insights. Simple!",
+    "teach me something": "Sure! Did you know reducing financial reporting time by 1 day can improve decision speed by 30%?",
+    "do you remember me": "I remember your financial preferences from this session!",
+    "you there": "I'm here and ready to help with your financial questions. What's next?",
+    "let's work": "Absolutely! Let's work on your financial reports or analysis.",
+    "analyze now": "Starting your financial analysis now... please hold on.",
+    "can i ask something": "Of course! Ask anything about your business finances.",
+
+    // Financial and data analysis responses
+    "what is data analysis": "Financial data analysis involves inspecting, cleaning, and modeling data to discover useful information for business decision-making.",
+    "show sales performance": "Sure! Here's a financial summary of your current sales performance based on recent data.",
+    "revenue last month": "Last month's financial revenue was $XXX. Would you like a breakdown by product or service?",
+    "customer segmentation": "Financial customer segmentation divides your audience into groups based on shared characteristics to optimize targeting and pricing.",
+    "monthly report": "Generating your monthly financial performance report now...",
+    "weekly stats": "Here are your weekly financial stats. Do you want to filter by category or product?",
+    "sales trend": "Here's a financial chart of your recent sales trends. Would you like predictions too?",
+    "predict future sales": "Based on current financial trends, your projected sales for next month are $XXX.",
+    "high performing products": "Your top-performing financial products this period are: 1. X, 2. Y, 3. Z.",
+    "inventory levels": "You currently have 548 items in stock across all categories with $XX inventory value.",
+    "low stock warning": "These items are low on stock: Item A, Item B. Consider financial implications of restocking soon.",
+    "churn rate": "Your current customer churn rate is 6.4%. Lowering it can improve financial retention.",
+    "conversion rate": "Your financial conversion rate is 12.5% based on recent campaign data.",
+    "funnel analysis": "Here's your financial sales funnel: Awareness > Interest > Conversion. Let's analyze financial drop-offs.",
+    "client acquisition": "You gained 245 new clients this month financially. That's a 15% increase!",
+    "marketing effectiveness": "Your latest financial campaign had a 5.2% click-through rate and a 7.8% conversion rate.",
+    "customer satisfaction": "Financial satisfaction score is 89%. Do you want to explore customer feedback?",
+    "revenue growth": "Financial revenue has grown 12% compared to last quarter.",
+    "kpi dashboard": "Opening your financial KPI dashboard now...",
+    "business performance": "Here's a financial overview of your current business performance.",
+    "generate insights": "Analyzing your financial data to generate actionable insights...",
+    "daily metrics": "Your daily financial metrics show a 4% increase in transaction activity.",
+    "profit margin": "Your financial profit margin this quarter is 26.4%.",
+    "sales by region": "Most financial sales came from Region A (45%), followed by Region B (30%).",
+    "export data": "Exporting your financial data to CSV... Done! Would you like email delivery too?",
+    "import file": "Upload a financial CSV file and I'll process the data for you.",
+    "compare months": "Comparing this month vs. last financially: Revenue +8%, Costs -5%.",
+    "product analytics": "Product A is financially outperforming others by 24%. Let's dive deeper?",
+    "service performance": "Financial service satisfaction is high at 91%. Engagement is trending upward.",
+    "filter by date": "Please choose a financial date range. I'll filter the data accordingly.",
+    "ai recommendations": "Based on current financial trends, I recommend focusing on Product B for higher returns.",
+    "pricing analysis": "Product B has the highest financial ROI at the current price.",
+    "user activity": "12,548 financial transactions today. Engagement is above average.",
+    "top customers": "Your top 5 financial customers based on revenue: 1. A, 2. B...",
+    "return on investment (roi)": "Your current financial ROI is 34.2%, a strong performance.",
+    "break-even analysis": "Your financial break-even point was reached 10 days earlier than last month.",
+    "new leads": "You gained 47 new financial leads from the last campaign.",
+    "revenue forecast": "Projected financial revenue for next month is $135,000.",
+    "upload business data": "Please upload your financial data file to begin the analysis.",
+    "visualize data": "Generating financial visual charts now... which type would you prefer: bar, pie, or line?",
+    "show me trends": "Analyzing financial trends in your business growth now...",
+    "show dashboard": "Opening your financial analytics dashboard. What section would you like to focus on?",
+    "how's my business doing": "Overall financial business health is positive. Revenue and margins are up.",
+    "repeat last report": "Repeating your last financial report with current data.",
+    "analyze services": "Your top financial services this month are X and Y.",
+    "product performance": "Product A contributed 60% to your total financial revenue.",
+    "cost analysis": "Analyzing your financial operational costs... the main cost driver is Logistics.",
+    "sales forecast": "You're projected to close $250K in financial sales next quarter.",
+    "satisfaction feedback": "Most positive financial feedback highlights payment flexibility and reporting clarity.",
+    "show service quality": "Financial service quality rating is 92%. No major issues flagged.",
+    "top selling items": "This week's top-selling financial item: Product Z.",
+    "generate pdf report": "Creating a downloadable financial PDF report for your selected range...",
+    "email summary": "Would you like me to email today's financial performance summary?",
+    "real-time data": "Displaying real-time financial business data.",
+    "revenue breakdown": "60% products, 40% services financially. Want detailed categories?",
+    "best sales channel": "Email marketing converted the most financial sales this week.",
+    "funnel conversion rate": "Financial funnel conversion is at 14%, with drop-offs mostly at the 'Interest' stage.",
+    "net profit": "Your financial net profit is $85,000 for this quarter.",
+    "gross revenue": "Financial gross revenue stands at $1.2M for this period.",
+    "net revenue": "After financial costs, your net revenue is $865K.",
+    "daily revenue": "You earned $4,352 today so far financially.",
+    "weekly performance": "Weekly financial performance is up by 9% overall.",
+    "business summary": "Your financial business summary shows positive growth across key KPIs.",
+    "alert me on drop": "Financial notification set. I'll alert you when revenue drops 10% or more.",
+    "show heatmap": "Here's a financial heatmap of sales activity by region.",
+    "customer feedback": "Want to review top financial customer comments from this week?",
+    "chart analytics": "Choose your financial chart type: bar, pie, line, scatter.",
+    "new client count": "You've added 32 new financial clients this week.",
+    "lost clients": "You lost 5 financial clients last month. Would you like reasons?",
+    "retention rate": "Financial retention is currently 91.3%. That's a strong figure.",
+    "service downtime": "No reported financial downtimes this week.",
+    "optimize sales": "Try targeting high-performing financial regions and bundling Product A with B.",
+    "productivity report": "Your financial team's average task completion rate is 88%.",
+    "business strategy": "Would you like AI-generated financial strategy recommendations?",
+    "competitor comparison": "Comparing financial performance to competitors: You're ahead in 3 of 5 KPIs.",
+    "performance gap": "Financial revenue is 12% below target. Suggestions incoming.",
+    "weekly goals": "You've met 4 out of 5 weekly financial business goals.",
+    "yearly summary": "Annual financial revenue up by 22%, satisfaction up by 9%.",
+    "benchmark data": "Financial benchmarking with industry average... you're performing above average."
+};
+
+// Toggle chatbot window
+chatbotButton.addEventListener('click', () => {
+    chatbotWindow.style.display = 'flex';
+});
+
+closeChatbot.addEventListener('click', () => {
+    chatbotWindow.style.display = 'none';
+});
+
+// Show typing indicator
+function showTypingIndicator() {
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'typing-indicator';
+    typingDiv.id = 'typing-indicator';
+    typingDiv.innerHTML = `
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+    `;
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Hide typing indicator
+function hideTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+}
+
+// Send message function
+async function sendMessage() {
+    const message = userInput.value.trim();
+    if (message) {
+        // Add user message
+        addMessage(message, 'user');
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        // Process and add bot response
+        try {
+            const response = await getBotResponse(message);
+            hideTypingIndicator();
+            addMessage(response, 'bot');
+        } catch (error) {
+            hideTypingIndicator();
+            addMessage("I'm having trouble processing your request. Please try again later.", 'bot');
+            console.error("Error getting bot response:", error);
+        }
+        
+        // Clear input
+        userInput.value = '';
+    }
+}
+
+// Quick reply function
+async function sendQuickReply(message) {
+    // Add user message
+    addMessage(message, 'user');
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    // Process and add bot response
+    try {
+        const response = await getBotResponse(message);
+        hideTypingIndicator();
+        addMessage(response, 'bot');
+    } catch (error) {
+        hideTypingIndicator();
+        addMessage("I'm having trouble processing your request. Please try again later.", 'bot');
+        console.error("Error getting bot response:", error);
+    }
+}
+
+// Add message to chat
+function addMessage(text, sender) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message');
+    messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+    messageDiv.textContent = text;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Get bot response based on user input
+async function getBotResponse(input) {
+    input = input.toLowerCase();
+    
+    // First check knowledge base for direct matches
+    for (const [keyword, response] of Object.entries(knowledgeBase)) {
+        if (input.includes(keyword)) {
+            return response;
+        }
+    }
+    
+    // Check for partial matches with some flexibility
+    const words = input.split(' ');
+    for (const word of words) {
+        if (knowledgeBase[word]) {
+            return knowledgeBase[word];
+        }
+    }
+    
+    // If no local match, use OpenAI API (replace with your actual API key)
+    // Note: In production, you should call this from a backend service for security
+    const OPENAI_API_KEY = 'sk-your-openai-api-key-here'; // Replace with your actual key
+    
+    try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "gpt-3.5-turbo",
+                messages: [
+                    {
+                        role: "system",
+                        content: "You are a helpful financial audit assistant for BizBooster. Provide concise, professional answers to questions about financial auditing, accounting, and business analysis. Keep responses under 150 words. If unsure, say you'll need to consult a human expert."
+                    },
+                    {
+                        role: "user",
+                        content: input
+                    }
+                ],
+                temperature: 0.7,
+                max_tokens: 150
+            })
+        });
+        
+        const data = await response.json();
+        return data.choices[0]?.message?.content || "I'm not sure how to answer that financial question. Could you rephrase it?";
+    } catch (error) {
+        console.error("Error calling OpenAI:", error);
+        return "I'm having trouble accessing advanced financial features right now. Please try a more specific question about financial audits or our services.";
+    }
+}
+
+// Event listeners for sending messages
+sendButton.addEventListener('click', sendMessage);
+userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+// Initial greeting
+setTimeout(() => {
+    addMessage("Need quick financial answers? Try clicking one of the buttons below!", 'bot');
+}, 1500);
+    </script>
+</body>
+</html>
