@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #343a40;
+        }
+        
+        .error-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        h1 {
+            color: #dc3545;
+            margin-top: 0;
+            font-size: 28px;
+        }
+        
+        .reason-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .mail-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .mail-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1># ERROR</h1>
+        
+        <div class="reason-title">Why you landed to this page:</div>
+        
+        <ul>
+            <li>Missing required columns in CSV.</li>
+            <li>your data may have some missing values or column</li>
+            <li>If the problem persist please contact our data analyst by mailing your data to mail id : <a href="mailto:open mail" class="mail-link">open mail</a></li>
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Error page loaded');
+            
+            const mailLink = document.querySelector('.mail-link');
+            if (mailLink) {
+                mailLink.addEventListener('click', function() {
+                    console.log('User clicked on mail link');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
